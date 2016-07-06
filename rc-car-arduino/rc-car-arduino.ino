@@ -19,22 +19,6 @@ const int RIGHT_RELEASED = 134;
 const int LEFT_PRESSED = 7;
 const int LEFT_RELEASED = 8;
 
-void setup() {
-  pinMode(backwardsPin, OUTPUT);
-  pinMode(forwardsPin, OUTPUT);
-  pinMode(leftPin, OUTPUT);
-  pinMode(rightPin, OUTPUT);
-  Serial.begin(115200);
-}
-
-void loop() {
-  if (Serial.available() > 0) {
-    incomingByte = Serial.read();
-    
-
-  }
-}
-
 void detectKeyPresses() {
   if (incomingByte == FORWARDS_PRESSED) {
       forwardsPressed = true;
@@ -54,7 +38,7 @@ void detectKeyPresses() {
       rightPressed = true;
     }
     else if (incomingByte == LEFT_PRESSED) {
-      leftPressed = true;  
+      leftPressed = true;
     }
 
     if (incomingByte == RIGHT_RELEASED) {
@@ -95,3 +79,18 @@ void handlePinOutputs() {
   }
 }
 
+void setup() {
+  pinMode(backwardsPin, OUTPUT);
+  pinMode(forwardsPin, OUTPUT);
+  pinMode(leftPin, OUTPUT);
+  pinMode(rightPin, OUTPUT);
+  Serial.begin(115200);
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    incomingByte = Serial.read();
+    detectKeyPresses();
+    handlePinOutputs();
+  }
+}
